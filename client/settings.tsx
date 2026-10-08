@@ -16,6 +16,7 @@ function ProjectEditor({ projectId, settings, theme, layout }: PluginSurfaceProp
     setDraft({ ...current, mappings });
   }
   async function save() {
+    setMessage(null);
     try {
       const write = prepareProjectSave(current);
       if (await settings.save(write.values, write.revision)) {
@@ -49,7 +50,7 @@ function ProjectEditor({ projectId, settings, theme, layout }: PluginSurfaceProp
         <SettingsAction label={settings.saving ? 'Saving mappings…' : 'Save project mappings'} actionLabel="Save" disabled={!draft || settings.saving} onPress={() => { void save(); }} />
         <SettingsAction label="Discard edits and reload saved mappings" actionLabel="Reload" disabled={settings.saving} onPress={() => { setDraft(null); setMessage(null); void settings.reload(); }} />
       </SettingsCard>
-      {(message || settings.saveError) && <Text accessibilityRole="alert" style={{ color: theme.colors.foreground, paddingVertical: layout.compact ? 8 : 12 }}>{settings.saveError ?? message}</Text>}
+      {(message || settings.saveError) && <Text accessibilityRole="alert" style={{ color: theme.colors.foreground, paddingVertical: layout.compact ? 8 : 12 }}>{message ?? settings.saveError}</Text>}
     </SettingsSection>
   );
 }

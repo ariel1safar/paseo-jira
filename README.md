@@ -6,7 +6,7 @@ Requires Paseo **0.11.1 or later** on the daemon and client. No Jira account con
 
 ## Setup
 
-After this repository is released, install the tagged Git source:
+Install the tagged Git source:
 
 ```sh
 paseo plugin install git:ariel1safar/paseo-jira --ref v0.1.0
@@ -61,6 +61,6 @@ paseo --host <isolated-daemon-url> plugin reload paseo-jira
 
 `shared/` contains validation and ticket resolution. `client/` owns the settings editor, cached header/slash controller and owned subscription lifecycle. The server entry registers the version 1 host settings document. Tests use Node's built-in runner with deterministic fake transport boundaries and controlled promises, without Jira requests.
 
-Release preparation includes independent checks on desktop/compact layouts, light/dark themes, persistence and an authentic `assets/screenshot.png`. The manifest reserves that screenshot path; QA supplies the asset before release.
+Verify changes in desktop and compact layouts, light and dark themes, and across a daemon restart to check settings persistence. Use `npm pack --dry-run` to confirm the package includes the plugin sources and screenshot assets.
 
 MIT license. Repository: [ariel1safar/paseo-jira](https://github.com/ariel1safar/paseo-jira).
