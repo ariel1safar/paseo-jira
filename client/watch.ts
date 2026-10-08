@@ -1,9 +1,9 @@
 import type { PluginClientContext } from '@getpaseo/plugin/client';
-import type { PaseoWorkspaceListResult } from '@getpaseo/client';
 import { settingsRpc } from '@getpaseo/plugin';
 import { jiraSettings, settingsSchema } from '../shared/settings.ts';
 import type { JiraController, Workspace } from './controller.ts';
 
+type PaseoWorkspaceListResult = Awaited<ReturnType<PluginClientContext['paseo']['workspaces']['list']>>;
 type Schedule = (callback: () => void, delay: number) => () => void;
 const scheduleRetry: Schedule = (callback, delay) => {
   const timer = setTimeout(callback, delay);

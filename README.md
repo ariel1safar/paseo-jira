@@ -9,7 +9,7 @@ Requires Paseo **0.11.1 or later** on the daemon and client. No Jira account con
 Install the tagged Git source:
 
 ```sh
-paseo plugin install git:ariel1safar/paseo-jira --ref v0.1.0
+paseo plugin install git:ariel1safar/paseo-jira --ref v0.1.1
 ```
 
 Enable plugins under **Settings → Plugins**, enable **Jira Tickets**, and open its settings screen.
