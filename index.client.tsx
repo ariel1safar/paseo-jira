@@ -1,19 +1,17 @@
-import type { PluginClientContext, PluginSidebarItemProps } from "@getpaseo/plugin/client";
-import { SidebarRow } from "@getpaseo/plugin/client/ui";
-import { GreetingScreen } from "./client/greeting";
-
-function GreetingItem({ currentScreen, openScreen }: PluginSidebarItemProps) {
-  return (
-    <SidebarRow
-      icon="MessageCircle"
-      active={currentScreen?.screenId === "greeting"}
-      onPress={() => openScreen({ screenId: "greeting" })}
-    />
-  );
-}
+import { openExternalUrl, type PluginClientContext } from '@getpaseo/plugin/client';
+import { createController } from './client/controller.ts';
+import { JiraSettingsScreen } from './client/settings.tsx';
+import { watchJira } from './client/watch.ts';
 
 export default function contribute(client: PluginClientContext) {
-  client.addScreen({ id: "greeting", title: "Greeting", Component: GreetingScreen });
-  client.addSidebarHeaderItem({ id: "greeting", title: "Greeting", Component: GreetingItem });
-  return () => {};
+  client.addSettingsScreen({ id: 'jira', title: 'Jira Tickets', icon: 'Ticket', Component: JiraSettingsScreen });
+  const controller = createController({ addHeaderButton: button => client.addHeaderButton(button), openExternalUrl });
+  client.addSlashCommand({
+    name: 'jira', description: 'Open a Jira ticket for this project', argumentHint: '[KEY]', context: 'workspace',
+    onSubmit({ workspace, args }) {
+      // Slash snapshots omit gitRuntime; the controller uses the cached SDK descriptor.
+      return controller.submit(workspace.id, args);
+    },
+  });
+  return watchJira(client, controller);
 }

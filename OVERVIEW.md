@@ -1,26 +1,9 @@
-<!--
-OVERVIEW.md is required to list your plugin in the registry. Keep it beside
-paseo-plugin.json in your repository at the pinned commit and in your npm package.
-Replace this comment with useful facts before publishing.
+# Jira Tickets
 
-This overview is for people choosing a plugin in Paseo, on the plugin page under
-its install command. README assumes a GitHub audience and includes technical
-details, installation instructions, and badges. Long, AI-generated READMEs leave
-people reading past that material to understand what the plugin does.
+Jira Tickets opens tickets from the Paseo workspace header or the `/jira` command. It checks the Git branch, then the workspace title, then the workspace name, using the first source with matching configured ticket prefixes. One ticket appears as a header action; several appear in a menu. With no match, the header action is hidden.
 
-Write these parts in order, including only what helps someone decide to install:
+In Jira Tickets settings, choose a Paseo project and add prefix-to-URL mappings. For example, map `IC` to `https://jira.example.com/browse/{ticket}`. Prefixes are literal and case-insensitive. URLs must use HTTPS with `{ticket}` in the path or query and cannot contain credentials. Duplicate prefixes within a project are rejected. Settings start empty and apply to all worktrees of the selected project, with no fallback to another project's configuration.
 
-1. Describe what your plugin is and does in plain terms first.
-2. Explain how it works only when it is not obvious.
-3. Explain setup when needed: settings, accounts, tokens, providers, tools, or
-   other plugins. Include applicable daemon version and operating system
-   requirements. Setup guidance is allowed; installation instructions are not.
-4. Explain capabilities and settings worth understanding, what each option does,
-   what the plugin reads or sends and where, permissions, and known limits.
+Use `/jira IC-123` to open an exact ticket, or `/jira` to open the detected ticket. Multiple detected tickets require a choice from the header menu or an explicit key. Keys are normalized to uppercase and keep leading zeros. Compact layouts use Paseo's native header and menu presentation.
 
-Length follows complexity; a theme needs one paragraph. Choose headings only
-when they help. Use sentence case and plain factual language, with no em dashes.
-Omit installation commands, badges, changelog, contributing or license sections,
-marketing, and unsupported claims. Avoid implementation filler such as empty
-cleanup functions, theme-token field lists, or lists of absent features.
--->
+Requires Paseo 0.11.1 or later on both the daemon and client. The plugin reads Paseo project and workspace descriptors, including the branch, title and name. It stores mappings on the selected host per plugin installation; connected clients share those settings. It does not inspect chat or request Jira data. Links open on the client device, and the browser contacts the configured destination using its normal Jira sign-in session. The plugin needs no Jira API credentials. Removing the plugin installation deletes its settings.
